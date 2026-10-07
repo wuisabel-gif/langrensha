@@ -7,3 +7,5 @@ Brief: cohesive premium hand-painted mature anime portraits, deep navy moonlight
 `public/moon-village.png`: original imagegen moonlit mountain village landscape, 1536×1024, generated October 6, 2026. No people or text; mist, pine forest, silver moonlight, warm village windows. Inspected before use as the page background.
 
 `public/fonts/ma-shan-zheng-roles.ttf`: Ma Shan Zheng (Google Fonts), title glyph subset self-hosted for role names and branding. SIL Open Font License in `public/fonts/OFL.txt`. Body text remains Noto Sans SC.
+
+`public/masked-guest.png`: original imagegen human portrait with ivory porcelain full-face mask, dark hair and navy embroidered cloak, generated October 6, 2026. Role-neutral: same portrait used for every unknown identity and hidden card; revealed roles retain their role illustrations. Native proportions preserved with object-fit cover. Inspected before integration.

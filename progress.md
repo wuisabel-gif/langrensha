@@ -7,3 +7,5 @@ Browser validation passed: desktop + mobile create/join, six human sessions plus
 
 Visual refinement requested: remove role dossier caption, fix stretched art, improve calligraphy and background. Removed caption, replaced distorted atlas backgrounds with aspect-preserving SVG viewports, used square entry art, self-hosted Ma Shan Zheng title glyphs, integrated generated moonlit village background with readable panel overlays. No gameplay changes.
 Validation: TypeScript passes. Browser checks all six roles, loaded local brush font, removed label, no mobile horizontal overflow or page errors. Desktop and 390px mobile screenshots inspected; development-game smoke screenshot inspected. Portraits remain undistorted and form text readable.
+
+Replaced the hidden-card and occupied unknown-seat moon placeholders with one generated masked human portrait. Revealed roles and empty-seat plus signs remain unchanged. TypeScript and browser create/fill lobby checks pass: card plus six portraits load, no page errors or mobile overflow. Desktop and phone screenshots inspected.

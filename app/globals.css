@@ -18,3 +18,12 @@ body{background:linear-gradient(180deg,#08132140,#08132199 75%,#081321ed),url('/
 .role-description,.role-showcase>.muted{text-shadow:0 2px 8px #030811}
 header{border-bottom-color:#9bbcc733}
 @media(max-width:650px){body{background-attachment:scroll;background-position:center top;background-size:auto 100vh;background-color:var(--bg)}.role-description{font-size:14px}}
+
+/* Every unrevealed player uses the same role-neutral masked portrait. */
+.masked-art{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.seat-face>.masked-art{border-radius:50%}
+.card-back>.masked-art{position:absolute;inset:0;height:100%;object-position:50% 35%}
+.masked-card-copy{position:absolute;inset:auto 0 0;padding:58px 12px 24px;background:linear-gradient(transparent,#091320e8 45%,#091320);text-align:center}
+.masked-card-copy>span{font-family:var(--serif);letter-spacing:.22em;color:var(--silver)}
+.masked-card-copy>p{font-size:11px;margin:8px 0 0;color:var(--muted)}
+@media(max-width:650px){.masked-card-copy{padding:30px 4px 10px}.masked-card-copy>span{font-size:12px}.masked-card-copy>p{display:none}}
