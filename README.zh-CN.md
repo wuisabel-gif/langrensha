@@ -83,6 +83,24 @@ npm run build
 
 截图来自本地真实浏览器会话，示例房间号不作为长期可用邀请。
 
+## 更多游戏截图
+
+### 英文大厅与 AI 设置
+
+![启用快速 AI 的英文大厅](docs/screenshots/06-english-lobby.png)
+
+### 查看秘密身份
+
+![开局时仅自己可见的角色牌](docs/screenshots/08-secret-role.png)
+
+### 夜间阶段
+
+![夜间行动与同步倒计时](docs/screenshots/09-night-phase.png)
+
+### 手机上的快速 AI 设置
+
+<img src="docs/screenshots/07-fast-ai-mobile.png" alt="手机大厅中的快速 AI 设置" width="390" />
+
 ## 语言与 AI 速度
 
 在页头选择 **中文 / English**，或直接[打开英文版](https://yemu-langrensha.actionintime.chatgpt.site/?lang=en)。每位玩家独立选择语言，中英文玩家可以同房游玩。界面、规则、系统事件、操作和 AI 台词已翻译；玩家姓名与真人聊天保留原文。切换语言不会重置比赛。

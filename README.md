@@ -59,6 +59,24 @@ This scoped online edition **does not include Sheriff elections, badges, Cupid/L
 
 Screenshots come from local browser sessions and include Chinese UI examples. Pictured room codes are examples, not permanent invitations.
 
+## More gameplay screenshots
+
+### English lobby and AI settings
+
+![English room setup with Fast AI enabled](docs/screenshots/06-english-lobby.png)
+
+### Reveal your secret role
+
+![Private role reveal at the start of a match](docs/screenshots/08-secret-role.png)
+
+### Night phase
+
+![Night phase with private identity and synchronized timer](docs/screenshots/09-night-phase.png)
+
+### Fast AI on mobile
+
+<img src="docs/screenshots/07-fast-ai-mobile.png" alt="Fast AI settings in the mobile lobby" width="390" />
+
 ## Architecture and privacy
 
 React / Vinext → same-origin API → Cloudflare D1.
