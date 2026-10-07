@@ -87,3 +87,7 @@ Use the language selector in the header, or [open the English version](https://y
 ![English interface](docs/screenshots/05-english-entry.png)
 
 Translation coverage: `npm run test:i18n`.
+
+### Faster AI practice
+
+In the lobby, the host can set **AI speed → Fast** (中文：**AI 速度 → 快速**). With AI players present, night phases last 8 seconds, bots act in about 1 second, and dawn lasts 3 seconds. Human speaking and voting limits stay unchanged. Night phases remain fixed to avoid role timing clues. All-human games use normal timing.

@@ -5,10 +5,11 @@ export const alive = (r: Room) => r.players.filter(p => p.alive);
 const player = (r: Room, pid: string) => r.players.find(p => p.id === pid);
 const label = (r: Room, pid: string) => { const i = r.players.findIndex(p => p.id === pid); return i < 0 ? '空票' : `${i + 1}号 ${r.players[i].name}`; };
 const log = (r: Room, text: string) => r.logs.push({ id: id(), day: r.day, text });
+const fastAI = (r: Room) => r.aiSpeed === 'fast' && r.players.some(p => p.bot);
 function phase(r: Room, next: Phase, now: number, seconds: number) { r.phase = next; r.phaseStarted = now; r.deadline = now + seconds * 1000; r.choices = {}; }
 export function createRoom(code: string, name: string, token: string, now: number): Room {
     const p: Player = { id: id(), token, name, bot: false, ready: false, alive: true, lastChat: 0 };
-    return { code, host: p.id, preset: 'quick', players: [p], spectators: [], phase: 'lobby', day: 0, deadline: 0, phaseStarted: now, created: now, speechSeconds: 30, nightSeconds: 15, choices: {}, night: {}, potions: { save: true, poison: true }, checks: {}, logs: [], messages: [], ballots: [], queue: [], tied: [], pk: false, deaths: [], hunters: [], words: [], afterDeaths: 'day', publicRoles: {} };
+    return { code, host: p.id, preset: 'quick', players: [p], spectators: [], phase: 'lobby', day: 0, deadline: 0, phaseStarted: now, created: now, speechSeconds: 30, nightSeconds: 15, aiSpeed: 'normal', choices: {}, night: {}, potions: { save: true, poison: true }, checks: {}, logs: [], messages: [], ballots: [], queue: [], tied: [], pk: false, deaths: [], hunters: [], words: [], afterDeaths: 'day', publicRoles: {} };
 }
 export function joinRoom(r: Room, name: string, token: string) {
     if ([...r.players, ...r.spectators].some(p => p.name === name))
@@ -33,6 +34,7 @@ export function addBot(r: Room) {
     r.players.push({ id: id(), token: id(), name, bot: true, ready: true, alive: true, lastChat: 0 });
 }
 export function start(r: Room, now: number) {
+    r.nightSeconds = fastAI(r) ? 8 : 15;
     const roles: Role[] = [...PRESETS[r.preset].roles];
     for (let i = roles.length - 1; i > 0; i--) {
         const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i + 1);
@@ -124,7 +126,7 @@ export function resolveNight(r: Room, now: number) {
     if (checkWin(r))
         return;
     log(r, r.deaths.length ? `天亮了。${r.deaths.map(d => label(r, d.id)).join('、')}出局。` : '天亮了。昨夜无人出局。');
-    phase(r, 'dawn', now, 8);
+    phase(r, 'dawn', now, fastAI(r) ? 3 : 8);
 }
 function eligibleVoters(r: Room) { return alive(r).filter(p => !r.pk || !r.tied.includes(p.id)); }
 export function resolveVote(r: Room, now: number) {
@@ -187,7 +189,7 @@ export function view(r: Room, pid: string, now: number): GameView {
     const me = player(r, pid), wolves = me?.role === 'wolf', privateWolf = !!(wolves && me?.alive && r.phase === 'nightWolf');
     const speaker = r.phase === 'speech' ? r.queue[0] : r.phase === 'lastWords' ? r.words[0] : undefined;
     const canChat = !!me && (r.phase === 'lobby' || speaker === pid || privateWolf);
-    return { code: r.code, host: r.host, preset: r.preset, players: r.players.map((p, i) => ({ id: p.id, name: p.name, bot: p.bot, ready: p.ready, alive: p.alive, seat: i + 1, role: r.phase === 'finished' || p.id === pid || wolves && p.role === 'wolf' ? p.role : r.publicRoles[p.id] })), spectators: r.spectators.map(p => ({ id: p.id, name: p.name })), phase: r.phase, day: r.day, deadline: r.deadline, serverNow: now, you: pid, isSpectator: !me, myRole: me?.role, myAlive: !!me?.alive, myChoice: r.choices[pid], checks: r.checks[pid] ?? [], ...(me?.role === 'witch' ? { potions: r.potions, ...(r.potions.save && r.phase === 'nightWitch' ? { wolfTarget: r.night.kill } : {}) } : {}), ...(privateWolf ? { wolfVotes: alive(r).filter(p => p.role === 'wolf').map(p => ({ name: p.name, target: r.choices[p.id] ?? '' })) } : {}), options: options(r, pid), canAct: options(r, pid).length > 0 && !r.choices[pid], canChat, chatChannel: privateWolf ? 'wolves' : 'public', speaker, logs: r.logs.slice(-80), messages: r.messages.filter(m => m.channel === 'public' || wolves).slice(-120), ballots: r.ballots, pk: r.pk, tied: r.tied, winner: r.winner, winReason: r.winReason, speechSeconds: r.speechSeconds, nightSeconds: r.nightSeconds };
+    return { code: r.code, host: r.host, preset: r.preset, players: r.players.map((p, i) => ({ id: p.id, name: p.name, bot: p.bot, ready: p.ready, alive: p.alive, seat: i + 1, role: r.phase === 'finished' || p.id === pid || wolves && p.role === 'wolf' ? p.role : r.publicRoles[p.id] })), spectators: r.spectators.map(p => ({ id: p.id, name: p.name })), phase: r.phase, day: r.day, deadline: r.deadline, serverNow: now, you: pid, isSpectator: !me, myRole: me?.role, myAlive: !!me?.alive, myChoice: r.choices[pid], checks: r.checks[pid] ?? [], ...(me?.role === 'witch' ? { potions: r.potions, ...(r.potions.save && r.phase === 'nightWitch' ? { wolfTarget: r.night.kill } : {}) } : {}), ...(privateWolf ? { wolfVotes: alive(r).filter(p => p.role === 'wolf').map(p => ({ name: p.name, target: r.choices[p.id] ?? '' })) } : {}), options: options(r, pid), canAct: options(r, pid).length > 0 && !r.choices[pid], canChat, chatChannel: privateWolf ? 'wolves' : 'public', speaker, logs: r.logs.slice(-80), messages: r.messages.filter(m => m.channel === 'public' || wolves).slice(-120), ballots: r.ballots, pk: r.pk, tied: r.tied, winner: r.winner, winReason: r.winReason, speechSeconds: r.speechSeconds, nightSeconds: r.nightSeconds, aiSpeed: r.aiSpeed ?? 'normal' };
 }
 function endSpeech(r: Room, now: number) { r.queue.shift(); if (r.queue.length)
     phase(r, 'speech', now, r.speechSeconds);
@@ -211,7 +213,7 @@ export function act(r: Room, pid: string, action: string, data: Record<string, u
             throw Error('只有房主能在结束后开始下一局。');
         const old = [...r.players, ...r.spectators], humans = old.filter(p => !p.bot), size = PRESETS[r.preset].size;
         const fresh = createRoom(r.code, humans[0]?.name ?? '房主', humans[0]?.token ?? id(), r.created);
-        Object.assign(r, fresh, { winner: undefined, winReason: undefined, lastGuard: undefined, host: pid, preset: r.preset, speechSeconds: r.speechSeconds, nightSeconds: r.nightSeconds, players: [...humans, ...old.filter(p => p.bot)].slice(0, size).map(p => ({ ...p, role: undefined, alive: true, ready: p.bot })), spectators: humans.slice(size) });
+        Object.assign(r, fresh, { winner: undefined, winReason: undefined, lastGuard: undefined, host: pid, preset: r.preset, speechSeconds: r.speechSeconds, nightSeconds: r.nightSeconds, aiSpeed: r.aiSpeed ?? 'normal', players: [...humans, ...old.filter(p => p.bot)].slice(0, size).map(p => ({ ...p, role: undefined, alive: true, ready: p.bot })), spectators: humans.slice(size) });
         return;
     }
     if (!p)
@@ -220,7 +222,7 @@ export function act(r: Room, pid: string, action: string, data: Record<string, u
         p.ready = !p.ready;
         return;
     }
-    if (['preset', 'fill', 'removeBot', 'settings', 'start'].includes(action)) {
+    if (['preset', 'fill', 'removeBot', 'settings', 'aiSpeed', 'start'].includes(action)) {
         if (pid !== r.host || r.phase !== 'lobby')
             throw Error('只有房主可以在等待室设置。');
         if (action === 'preset') {
@@ -238,6 +240,12 @@ export function act(r: Room, pid: string, action: string, data: Record<string, u
         }
         else if (action === 'removeBot') {
             r.players = r.players.filter(p => !p.bot || p.id !== data.playerId);
+        }
+        else if (action === 'aiSpeed') {
+            if (data.speed !== 'normal' && data.speed !== 'fast')
+                throw Error('请选择正常或快速 AI 速度。');
+            r.aiSpeed = data.speed;
+            r.players.forEach(p => p.ready = p.bot);
         }
         else if (action === 'settings') {
             if (![20, 30, 45, 60].includes(Number(data.seconds)))
@@ -361,12 +369,12 @@ export function tick(r: Room, now: number) {
         return;
     for (const p of r.players.filter(p => p.bot)) {
         const v = view(r, p.id, now), elapsed = now - r.phaseStarted;
-        if ((r.phase === 'speech' || r.phase === 'lastWords') && v.speaker === p.id && elapsed >= 2500) {
+        if ((r.phase === 'speech' || r.phase === 'lastWords') && v.speaker === p.id && elapsed >= (fastAI(r) ? 1000 : 2500)) {
             act(r, p.id, 'chat', { text: botSpeech(v) }, now);
             act(r, p.id, 'endSpeech', {}, now);
             break;
         }
-        if (v.canAct && elapsed >= 2500) {
+        if (v.canAct && elapsed >= (fastAI(r) ? 1000 : 2500)) {
             act(r, p.id, 'choice', { value: botAction(v) }, now);
         }
     }

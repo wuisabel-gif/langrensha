@@ -71,6 +71,7 @@ export type Room = {
     created: number;
     speechSeconds: number;
     nightSeconds: number;
+    aiSpeed?: 'normal' | 'fast';
     choices: Record<string, string>;
     night: {
         guard?: string;
@@ -157,4 +158,5 @@ export type GameView = {
     winReason?: string;
     speechSeconds: number;
     nightSeconds: number;
+    aiSpeed?: 'normal' | 'fast';
 };

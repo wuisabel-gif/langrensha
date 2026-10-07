@@ -111,7 +111,6 @@
   "玩法与本版规则": "How to play & rules",
   "胜利条件": "Winning",
   "准备后随机分配身份。角色不由外观选择决定。": "Roles are randomly assigned after everyone is ready. Portraits do not determine roles.",
-  "夜间按守卫 → 狼人 → 女巫 → 预言家行动（无守卫配置跳过守卫）。每阶段固定 15 秒，避免等待时间泄露身份。未行动视为跳过；狼人未统一目标则空刀。": "Night order: Guard → Werewolves → Witch → Seer (skip Guard in games without one). Each phase lasts 15 seconds to avoid revealing roles through timing. Missing an action means skip; wolves who disagree make no attack.",
   "白天轮流文字发言。只能在自己的轮次发言，结束时点击“发言结束”。从第二天起交替发言方向。": "Players take turns speaking through text. Speak only on your turn, then click “End turn”. Speaking direction alternates from day two.",
   "发言结束后秘密投票，30 秒内未投视为弃票。平票者进行一次 PK 发言，平票者不能参加复投；再次平票则无人出局。": "After discussion, vote secretly within 30 seconds; a missing vote is an abstention. Tied players get one runoff speech, but cannot vote in the runoff. Another tie means no elimination.",
   "出局不亮身份。首夜出局者、白天出局者有遗言；之后夜间出局者无遗言。猎人被毒杀不能开枪。": "Eliminated roles stay hidden. Players eliminated on the first night or during the day get last words; later night deaths do not. A poisoned Hunter cannot shoot.",
@@ -227,5 +226,11 @@
   "房间繁忙，请重试。": "The room is busy. Please retry.",
   "读取房间失败。": "Failed to load the room.",
   "创建失败，请重试。": "Could not create the room. Please retry.",
-  "操作失败，请重试。": "Action failed. Please retry."
+  "操作失败，请重试。": "Action failed. Please retry.",
+  "夜间按守卫 → 狼人 → 女巫 → 预言家行动（无守卫配置跳过守卫）。正常每阶段固定 15 秒；有 AI 的快速模式为 8 秒，避免等待时间泄露身份。未行动视为跳过；狼人未统一目标则空刀。": "Night order: Guard → Werewolves → Witch → Seer (skip Guard in games without one). Each phase lasts 15 seconds normally, or 8 seconds in Fast mode with AI to avoid revealing roles through timing. Missing an action means skip; wolves who disagree make no attack.",
+  "AI 速度": "AI speed",
+  "正常": "Normal",
+  "快速": "Fast",
+  "请选择正常或快速 AI 速度。": "Choose Normal or Fast AI speed.",
+  "快速模式：有 AI 时，夜间每阶段 8 秒，AI 约 1 秒行动，天亮等待 3 秒。你的发言与投票时间不变。": "Fast mode with AI: 8-second night phases, AI acts in about 1 second, and a 3-second dawn. Your speaking and voting time stays the same."
 }

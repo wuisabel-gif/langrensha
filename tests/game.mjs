@@ -59,4 +59,26 @@ for(const preset of Object.keys(PRESETS))for(let run=0;run<8;run++){
  assert.equal(r.phase,'finished',`${preset} stalled`);assert.ok(['good','wolves','draw'].includes(r.winner));
  r.players[0].bot=false;const s=joinRoom(r,'Late','late-secret');act(r,r.host,'rematch',{},now+1000);assert.equal(r.phase,'lobby');assert.equal(r.players.some(p=>p.id===s.id),true);assert.ok(r.players.every(p=>!p.role));assert.equal(r.winner,undefined);
 }
+// Fast AI is a host-only lobby setting, preserves human timers and fixed night timing.
+{
+ const r=createRoom('FAST','Host','fast-secret',1000);while(r.players.length<6)addBot(r);
+ assert.throws(()=>act(r,r.players[1].id,'aiSpeed',{speed:'fast'},2000));
+ assert.throws(()=>act(r,r.host,'aiSpeed',{speed:'instant'},2000));
+ act(r,r.host,'aiSpeed',{speed:'fast'},2000);assert.equal(r.players[0].ready,false);
+ r.players.forEach(p=>p.ready=true);start(r,3000);r.players.forEach((p,i)=>p.role=PRESETS.quick.roles[i]);
+ assert.equal(r.nightSeconds,8);assert.equal(view(r,r.host,3000).aiSpeed,'fast');
+ assert.throws(()=>act(r,r.host,'aiSpeed',{speed:'normal'},4000));
+ tick(r,13000);assert.equal(r.phase,'nightWolf');assert.equal(r.deadline-r.phaseStarted,8000);
+ tick(r,14000);assert.ok(r.choices[r.players[1].id]);assert.equal(r.phase,'nightWolf');
+ tick(r,20999);assert.equal(r.phase,'nightWolf');tick(r,21000);assert.equal(r.phase,'nightWitch');assert.equal(r.deadline-r.phaseStarted,8000);
+ // A dead special role still consumes the same fixed phase duration.
+ r.players.find(p=>p.role==='witch').alive=false;tick(r,22000);assert.equal(r.phase,'nightWitch');tick(r,29000);assert.equal(r.phase,'nightSeer');
+ r.queue=[r.players[1].id,r.host];r.phase='speech';r.phaseStarted=30000;r.deadline=60000;r.choices={};
+ tick(r,30999);assert.equal(r.queue[0],r.players[1].id);tick(r,31000);assert.equal(r.queue[0],r.host);assert.equal(r.deadline,61000);
+ act(r,r.host,'endSpeech',{},32000);assert.equal(r.phase,'vote');assert.equal(r.deadline,62000);
+ r.phase='finished';act(r,r.host,'rematch',{},63000);assert.equal(r.aiSpeed,'fast');
+ // Choosing Fast never shortens an all-human match.
+ r.players.forEach(p=>{p.bot=false;p.ready=true;});start(r,64000);assert.equal(r.nightSeconds,15);
+ delete r.aiSpeed;assert.equal(view(r,r.host,64000).aiSpeed,'normal');
+}
 fs.rmSync(out,{recursive:true,force:true});console.log('PASS role privacy, wolf chat, seer checks, witch/guard/hunter interactions, kill priority, PK ballots, victory, 24 complete AI matches and rematch');
