@@ -79,3 +79,11 @@ npm run build
 </details>
 
 截图来自本地真实浏览器会话，示例房间号不作为长期可用邀请。
+
+## English / 中文
+
+Use the language selector in the header, or [open the English version](https://yemu-langrensha.actionintime.chatgpt.site/?lang=en). Each player chooses independently and can share a room with Chinese-speaking players. The interface, rules, system events, actions and AI dialogue are localized. Player names and human-written chat are preserved. Language changes do not reset the match.
+
+![English interface](docs/screenshots/05-english-entry.png)
+
+Translation coverage: `npm run test:i18n`.
