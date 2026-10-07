@@ -14,7 +14,8 @@
     "db:generate": "drizzle-kit generate",
     "test:game": "node tests/game.mjs",
     "test:api": "node tests/api.mjs",
-    "db:local": "node scripts/setup-local-db.mjs"
+    "db:local": "node scripts/setup-local-db.mjs",
+    "test:i18n": "node tests/i18n.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
