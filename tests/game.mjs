@@ -6,6 +6,7 @@ const {PRESETS}=await import(path.join(out,'model.mjs'));
 function setup(preset='quick',bots=false){const r=createRoom('TEST','Host','host-secret',1000);r.preset=preset;while(r.players.length<PRESETS[preset].size)addBot(r);r.players.forEach(p=>{p.bot=bots;p.ready=true;});start(r,2000);r.players.forEach((p,i)=>p.role=PRESETS[preset].roles[i]);return r;}
 function setPhase(r,phase){r.phase=phase;r.phaseStarted=1000;r.deadline=16000;r.choices={};}
 function role(r,type){return r.players.find(p=>p.role===type);}
+const invalid=createRoom('SAFE','Host','safe',1000);assert.throws(()=>act(invalid,invalid.host,'preset',{preset:'__proto__'},2000));assert.throws(()=>act(invalid,invalid.host,'preset',{preset:'toString'},2000));
 // Every viewer gets only their own role and wolf teammates; nothing else secret.
 for(const preset of Object.keys(PRESETS)){
  const r=setup(preset);setPhase(r,'nightWolf');
