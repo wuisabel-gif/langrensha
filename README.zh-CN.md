@@ -1,4 +1,4 @@
-# 夜幕 · 狼人杀
+# 夜幕 · 狼人杀 / Werewolf Game
 
 [English](README.md) | **简体中文**
 

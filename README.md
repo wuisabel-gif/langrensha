@@ -1,4 +1,4 @@
-# Nightfall · Werewolf / 夜幕 · 狼人杀
+# Nightfall · Werewolf Game / 夜幕 · 狼人杀
 
 **English** | [简体中文](README.zh-CN.md)
 
