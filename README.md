@@ -68,6 +68,14 @@ npm run build
 ## 界面预览
 
 ![角色入口](docs/screenshots/01-role-entry.png)
-![真实多人局中的发言阶段](docs/screenshots/02-discussion.png)
+![面具身份与多人大厅](docs/screenshots/04-masked-lobby.png)
+![多人测试局中的发言阶段](docs/screenshots/02-discussion.png)
+
+<details>
+<summary>手机界面</summary>
+
+<img src="docs/screenshots/03-mobile.png" alt="手机上的多人游戏界面" width="390" />
+
+</details>
 
 截图来自本地真实浏览器会话，示例房间号不作为长期可用邀请。

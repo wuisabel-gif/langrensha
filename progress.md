@@ -9,3 +9,5 @@ Visual refinement requested: remove role dossier caption, fix stretched art, imp
 Validation: TypeScript passes. Browser checks all six roles, loaded local brush font, removed label, no mobile horizontal overflow or page errors. Desktop and 390px mobile screenshots inspected; development-game smoke screenshot inspected. Portraits remain undistorted and form text readable.
 
 Replaced the hidden-card and occupied unknown-seat moon placeholders with one generated masked human portrait. Revealed roles and empty-seat plus signs remain unchanged. TypeScript and browser create/fill lobby checks pass: card plus six portraits load, no page errors or mobile overflow. Desktop and phone screenshots inspected.
+
+Refreshed README screenshots from current local browser sessions: entry, masked lobby, discussion and mobile gameplay. All four images visually inspected. Full browser multiplayer flow passed again. Documentation-only update; production game unchanged.
